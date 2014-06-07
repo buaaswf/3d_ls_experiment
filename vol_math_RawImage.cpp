@@ -193,7 +193,7 @@ void RawImage::writeImage(Raw &destImg)
 	//delete[] data;
 	printf("write is ok");
 }
-void RawImage::writenormal(Raw &destImg,char *name)
+void RawImage::writenormal(Raw &destImg,const char *name)
 {
 	FILE *p=fopen(name,"wb");
 	PIXTYPE *data=(PIXTYPE *)destImg.getdata();
@@ -214,6 +214,7 @@ void RawImage::writenormal(Raw &destImg,char *name)
 	fflush(stdout);
 
 	delete[] data;
+	delete[] sdata;
 	printf("write is ok");
 }
 void RawImage::writeMRI(Raw &destImg, char *name)

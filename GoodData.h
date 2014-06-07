@@ -1,5 +1,5 @@
 #include "ThreeDim_LevelSet.h"
-void peppersalt(Raw *data);
+void peppersalt(Raw *data,double percent);
 //one ball
 Raw * myColondata1(int l,int m, int n)
 {
@@ -34,7 +34,7 @@ Raw * myColondata1(int l,int m, int n)
 			}
 		}
 	}
-	peppersalt(data);
+	peppersalt(data,0.99);
 	return data;
 }
 //two balls
@@ -73,7 +73,7 @@ Raw * myColondata2(int l,int m, int n)
 			}
 		}
 	}
-	peppersalt(data);
+	peppersalt(data,0.99);
 	return data;
 }
 Raw * myColondata3(int l,int m, int n)
@@ -127,10 +127,10 @@ Raw * myColondata3(int l,int m, int n)
 			}
 		}
 	}
-	peppersalt(data);
+	peppersalt(data,0.99);
 	return data;
 }
-Raw * myColondata4(int l,int m, int n)
+Raw * myColondata4(int l,int m, int n,double percent)
 {
 	int R=50;
 	int yR=50;
@@ -139,6 +139,8 @@ Raw * myColondata4(int l,int m, int n)
 	//memset(data->getdata(),0,l*m*n);
 	int zR=115;
 	int maxr=10;
+	int outerthickness= 10;
+	int distance=10;
 	for (int i = 0 ; i< l; i++)
 	{
 		for (int j = 0; j < m; j++)
@@ -150,12 +152,12 @@ Raw * myColondata4(int l,int m, int n)
 					if (r<5)
 					{
 						if ((i-sqrt((double)m*r/maxr)-l/4)*(i-sqrt((double)m*r/maxr)-l/4) +(j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < R*R||
-							(i-l*2/4)*(i-l*2/4) + (j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < R*R)
+							(i-l*2/4-distance)*(i-l*2/4-distance) + (j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < R*R)			//the || represents two colons
 						{
 							data->put(i,j,k,1000);
 						}
-						else if ((i-sqrt((double)m*r/maxr)-l/4)*(i-sqrt((double)m*r/maxr)-l/4) +(j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < (R+10)*(R+10)||
-							(i-l*2/4)*(i-l*2/4) + (j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < (R+10)*(R+10))
+						else if ((i-sqrt((double)m*r/maxr)-l/4)*(i-sqrt((double)m*r/maxr)-l/4) +(j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < (R + outerthickness)*(R + outerthickness)||
+							(i-l*2/4-distance)*(i-l*2/4-distance) + (j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < (R + outerthickness)*(R + outerthickness))   //the || represents two colons
 						{
 							if (data->get(i,j,k)!=1000)
 							{
@@ -173,12 +175,12 @@ Raw * myColondata4(int l,int m, int n)
 					{
 						//r-=5;
 						if ((i+sqrt((double)m*(r-5)/maxr)-l/4)*(i+sqrt((double)m*(r-5)/maxr)-l/4) +(j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < R*R||
-							(i-l*2/4)*(i-l*2/4) + (j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < R*R)
+							(i-l*2/4-distance)*(i-l*2/4-distance) + (j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < R*R)
 						{
 							data->put(i,j,k,1000);
 						}
-						else if ((i+sqrt((double)m*(r-5)/maxr)-l/4)*(i+sqrt((double)m*(r-5)/maxr)-l/4) +(j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < (R+10)*(R+10)||
-							(i-l*2/4)*(i-l*2/4) + (j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < (R+10)*(R+10))
+						else if ((i+sqrt((double)m*(r-5)/maxr)-l/4)*(i+sqrt((double)m*(r-5)/maxr)-l/4) +(j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < (R + outerthickness)*(R + outerthickness)||
+							(i-l*2/4-distance)*(i-l*2/4-distance) + (j-m*r/maxr)*(j-m*r/maxr) + (k-n/2)*(k-n/2)  < (R+ outerthickness)*(R + outerthickness))
 						{
 							if (data->get(i,j,k)!=1000)
 							{
@@ -202,15 +204,15 @@ Raw * myColondata4(int l,int m, int n)
 			}
 		}
 	}
-	peppersalt(data);
+	peppersalt(data,percent);
 	return data;
 }
-void peppersalt(Raw *data)
+void peppersalt(Raw *data, double percent)
 {
 	float pepper=0.5;
 	float salt=0.5;
 	double temp;
-	double SNR=0.99;
+	double SNR=percent;
 	    /*-----------------------------------------------------------------------------
      *  Salt & Pepper should be between 0 and 1.
      *-----------------------------------------------------------------------------*/

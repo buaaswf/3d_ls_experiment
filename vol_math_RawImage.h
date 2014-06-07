@@ -45,7 +45,7 @@ public:
 	float * buf2float(unsigned char *buf);
 	void save();
 	void writeMRI(Raw &destImg, char *name);
-	void writenormal(Raw &data,char *name);
+	void writenormal(Raw &data,const char *name);
 };
 class Raw  {
 private:   			//-----------------DATA----------------- 

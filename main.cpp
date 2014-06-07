@@ -219,10 +219,22 @@ int main(int argc,char **argv)
 	//testcolontest();
 	
 	//testsesmic();
-	
-	Raw *data=myColondata1(512,512,500);
-	RawImage *outdata=new RawImage();
-	outdata->writenormal(*data,"D:\\goodata2.raw");
+	for (int i=0;i<10;i++)
+	{
+		//double d=(double)i;
+		Raw *data=myColondata4(512,512,50,0.9+i*0.01);
+		RawImage *outdata=new RawImage();
+		char file_no[4];
+		int filen = i;
+		string strDir("D:\\goodata0.9");
+		itoa(filen, file_no, 10);//把数字存储为char的数组
+		strDir += file_no;//string是标准库类型，可以直接与char的数组进行+号连接
+		strDir += ".raw";
+		const char *cstr = strDir.c_str();
+		outdata->writenormal(*data,cstr);
+		delete data;
+	}
+
 	system("pause");
 	return 0;
 
