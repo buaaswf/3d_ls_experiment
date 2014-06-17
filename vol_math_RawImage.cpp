@@ -99,7 +99,31 @@ short * RawImage::readStream(char const *filename,int *l,int * m,int  * n)
 	int size=lx*ly*lz*sizeof(short);
 	*l=lx;*m=ly;*n=lz;
 	short *buf=new short[size];
-	file.seekg(24L,ios::beg);//+512*512*345*sizeof(short)
+	file.seekg(24L+*l**m*(212-20),ios::beg);//+512*512*345*sizeof(short)
+	file.read((char *)buf,size);
+	file.close();
+	return buf;
+
+}
+unsigned char * RawImage::readStreamuchar(char const *filename,int l,int m,int  n,int seedz)
+{
+
+	//int lx= 0,ly=0,lz=0;
+	float rate=0;
+	ifstream file;
+	file.open(filename, ios::out | ios::app | ios::binary);
+	if (!file.is_open()) {
+		cout<< "The file open failed, Please check it and try again"<< endl;
+		exit(0);
+	}
+	//file.read(reinterpret_cast<char *>(&lx),sizeof(int));
+	//file.read(reinterpret_cast<char *>(&ly),sizeof(int));
+	//file.read(reinterpret_cast<char *>(&lz),sizeof(int));
+	//file.read(reinterpret_cast<char *>(&rate),sizeof(float));
+	//cout<<rate<<endl;
+	int size=l*m*n*sizeof(unsigned char);
+	unsigned char *buf=new unsigned char [size];
+	file.seekg(24L+l*m*(seedz-20),ios::beg);//+512*512*345*sizeof(short)
 	file.read((char *)buf,size);
 	file.close();
 	return buf;
@@ -256,26 +280,26 @@ void RawImage::writeImageName(Raw &destImg, char *name)
 	PIXTYPE *data=new PIXTYPE[destImg.size()];
 		memcpy(data,destImg.getdata(),sizeof(PIXTYPE)*destImg.size());
 	
-	for (int i=0;i<destImg.getZsize();i++)
-	{
-		for (int j=0;j<destImg.getYsize();j++)
-		{
-			for (int k=0;k<destImg.getXsize();k++)
-			{
-				PIXTYPE *val = &data[i*destImg.getXsize()*destImg.getYsize()+j*destImg.getXsize()+k];
-				if (((k-256)*(k-256)+(j-256)*(j-256) )<(230*230))//k<409 && k> 107 && j>156 &&j <390
-				{
-					if (*val > 1)
-					{
-						*val = 100;  //change to 100 for roc computing *val=0; 
+	//for (int i=0;i<destImg.getZsize();i++)
+	//{
+	//	for (int j=0;j<destImg.getYsize();j++)
+	//	{
+	//		for (int k=0;k<destImg.getXsize();k++)
+	//		{
+	//			PIXTYPE *val = &data[i*destImg.getXsize()*destImg.getYsize()+j*destImg.getXsize()+k];
+	//			if (((k-256)*(k-256)+(j-256)*(j-256) )<(230*230))//k<409 && k> 107 && j>156 &&j <390
+	//			{
+	//				if (*val > 1)
+	//				{
+	//					*val = 100;  //change to 100 for roc computing *val=0; 
 
-					}
-					else *val = 0; ////change to 0 for roc computing *val=100; 
-				}
-				else *val = 0;
-			}
-		}
-	}
+	//				}
+	//				else *val = 0; ////change to 0 for roc computing *val=100; 
+	//			}
+	//			else *val = 0;
+	//		}
+	//	}
+	//}
 	fwrite(data, sizeof(PIXTYPE), destImg.size(), p);
 	fclose(p);
 	fflush(stdout);

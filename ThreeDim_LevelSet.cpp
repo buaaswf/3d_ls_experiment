@@ -335,11 +335,20 @@ void ThreeDim_LevelSet::outerwall(Raw &phi,Raw &g,double lambda,double mu,double
 	this->initialg(g);
 	Raw pull=outwallpull(phi);
 	this->initialg(pull);
-	for (int i=0; i < 5; i++)
+	for (int i=0; i < 2; i++)
 	{
-		phi = this->minimal_surface(phi,pull+g,lambda,mu,-10,epsilon,timestep,8,potentialFunction)+\
-			this->minimal_surface(phi,g,lambda,mu,-alfa,epsilon,timestep,1,potentialFunction);
+		//if (i<1)
+		//{
+		//	phi = this->minimal_surface(phi,pull+g,lambda,mu,2*alfa,epsilon,timestep,10,potentialFunction)+\
+		//		this->minimal_surface(phi,g,lambda,mu,-alfa,epsilon,timestep,1,potentialFunction);
 
+		//}
+		//else 
+		phi = this->minimal_surface(phi,pull+g,2*lambda,mu,3*alfa,epsilon,timestep,30,potentialFunction); //+\
+		//this->minimal_surface(phi,g,lambda,mu,-alfa,epsilon,timestep,1,potentialFunction);
+		
+			
+			//this->minimal_surface(phi,g,lambda,mu,1,epsilon,timestep,1,potentialFunction);//change 2*phi to phi -alfa to 1
 		cout << "outer wall iter = " << i <<endl;
 	}
 
@@ -349,9 +358,9 @@ void ThreeDim_LevelSet::outerwallauto(Raw &phi,Raw &g,double lambda,double mu,do
 {
 
 	this->initialg(g);
-	for (int i=0; i < 30; i++)
+	for (int i=0; i < 40; i++)
 	{
-		phi=this->minimal_surface(phi,g,lambda,mu,alfa,epsilon,timestep,1,potentialFunction);
+		phi=this->minimal_surface(phi,g,2*lambda,mu,2*alfa,epsilon,timestep,1,potentialFunction);
 		cout << "outer wall auto stop iter = " << i <<endl;
 	}
 

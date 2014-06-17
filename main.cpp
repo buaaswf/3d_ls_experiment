@@ -6,6 +6,7 @@
 #include "DeleteMiddle.h"
 #include"Polyp.h"
 #include"GoodData.h"
+
 //#include <iostream>
 //#include <crtdbg.h> 
 //#include "CImg.h" 
@@ -188,37 +189,8 @@ void rate(string dir)
 	delete [] indata;
 	
 }
-
-int main(int argc,char **argv)
+void makeGoodData()
 {
-	//string dir2(input2);
-	//vector<string> files2;
-	//GetFileNameFromDir(dir2,files2);
-	//vector<string>::iterator iterFile2;
-	//for ( iterFile2 = files2.begin(); iterFile2 != files2.end(); iterFile2++ )
-	//{
-
-	//	
-	//	iterFile2->assign(iterFile2->substr(dir2.size()+1));
-	//	cout<<*iterFile2 <<endl;
-	//	//ddcircle(*iterFile);
-	//	//testcolon(argc,*iterFile2);
-	//	//float2uchar(512,512,700,*iterFile2);
-	//	//testsesmic();
-	//	//thincknessstdv2(*iterFile2);
-	//	//roc(*iterFile2,);
-	//	//rate(*iterFile2);
-	//}
-	//testhistgram();
-	//deleteMiddle(argc,"");
-	//test();//delete dirty success
-	//cout<<endl;
-	//roc3();
-	//threshold();
-	//rocway2();
-	//testcolontest();
-	
-	//testsesmic();
 	for (int i=0;i<10;i++)
 	{
 		//double d=(double)i;
@@ -234,7 +206,51 @@ int main(int argc,char **argv)
 		outdata->writenormal(*data,cstr);
 		delete data;
 	}
+}
 
+int main(int argc,char **argv)
+{
+	string dir2(input2);
+	string dirthickness(inputt);
+	vector<string> files2;
+	vector<string> filesthickness;
+	GetFileNameFromDir(dir2,files2);
+	GetFileNameFromDir(dirthickness,filesthickness);
+
+	vector<string> ::iterator thicknessiter=filesthickness.begin();
+	vector<string>::iterator iterFile2;
+	for ( iterFile2 = files2.begin(); iterFile2 != files2.end(); iterFile2++ )
+	{
+
+		
+		iterFile2->assign(iterFile2->substr(dir2.size()+1));
+		thicknessiter->assign(thicknessiter->substr(dirthickness.size()+1));
+		cout<<*iterFile2 <<endl;
+		Polyp *test=new Polyp();
+		test->polypDetect(*iterFile2,*thicknessiter,1);
+
+	
+		thicknessiter++;
+		//ddcircle(*iterFile);
+		//testcolon(argc,*iterFile2);
+		//float2uchar(512,512,700,*iterFile2);
+		//testsesmic();
+		//thincknessstdv2(*iterFile2);
+		//roc(*iterFile2,);
+		//rate(*iterFile2);
+	}
+	//testhistgram();
+	//deleteMiddle(argc,"");
+	//test();//delete dirty success
+	//cout<<endl;
+	//roc3();
+	//threshold();
+	//rocway2();
+	//testcolontest();
+	
+	//testsesmic();
+
+	
 	system("pause");
 	return 0;
 

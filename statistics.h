@@ -21,7 +21,7 @@
 #else
 #include <dirent.h>
 #endif
-#define output "D:\\swfdata20140420res\\auto\\" 
+#define output "D:\\swfdata20140420res\\polyp\\" 
 //#define output "K:\\20140404\\" 
 //#define input1  "L:\\sdfdata2\\edt\\20140409edt\\"	//thickness uint8	//edt		//float
 ////swf 20140409 delete for float2char
@@ -55,8 +55,10 @@
 //people divide region dir
 //#define input1 "D:\\segdata\\people\\thickness\\edt\\"
 #define input1 "L:\\sdfdata2\\inner\\"
-#define input2 "K:\\sdf\\volume\\clean\\clean\\ep\\clean\\"
+//#define input2 "K:\\sdf\\volume\\clean\\clean\\ep\\clean\\"
 #define input3 "D:\\segdata\\people\\skeleton\\"
+// people /people divide region dir
+#define  input2 "K:\\sdf\\volume\\clean\\clean\\polyp\\"
 using namespace cimg_library;
 using namespace std;
 //////////////////////////////////////////////////////////////////////////

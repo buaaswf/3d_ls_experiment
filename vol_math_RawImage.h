@@ -46,6 +46,7 @@ public:
 	void save();
 	void writeMRI(Raw &destImg, char *name);
 	void writenormal(Raw &data,const char *name);
+	unsigned char *readStreamuchar(char const *filename,int l,int m,int  n,int seedz);
 };
 class Raw  {
 private:   			//-----------------DATA----------------- 
